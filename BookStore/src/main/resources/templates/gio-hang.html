@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"> xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ Hàng</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+        .container { width: 80%; margin: auto; overflow: hidden; padding: 20px; }
+        header { background: #333; color: #fff; padding-top: 30px; min-height: 70px; border-bottom: #77aaff 3px solid; }
+        header a { color: #fff; text-decoration: none; text-transform: uppercase; font-size: 16px; }
+        header ul { padding: 0; margin: 0; list-style: none; }
+        header li { float: left; display: inline; padding: 0 20px 0 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .checkout-button { background: #e8491d; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; text-decoration: none; margin-top: 20px; display: inline-block; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Giỏ Hàng</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/gio-hang">Giỏ hàng</a></li>
+                <li><a href="/admin">Quản lý</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <h2>Giỏ Hàng Của Bạn</h2>
+    <div th:if="${gioHang == null or #lists.isEmpty(gioHang.chiTietGioHang)}">
+        <p>Giỏ hàng của bạn đang trống.</p>
+        <a href="/">Tiếp tục mua sắm</a>
+    </div>
+    <div th:unless="${gioHang == null or #lists.isEmpty(gioHang.chiTietGioHang)}">
+        <table>
+            <thead>
+            <tr>
+                <th>Tên Sách</th>
+                <th>Giá</th>
+                <th>Số Lượng</th>
+                <th>Tổng Cộng</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${gioHang.chiTietGioHang}">
+                <td th:text="${item.sach.tenSach}"></td>
+                <td th:text="${#numbers.formatDecimal(item.sach.gia, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}"></td>
+                <td th:text="${item.soLuong}"></td>
+                <td th:text="${#numbers.formatDecimal(item.sach.gia * item.soLuong, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <form action="/thanh-toan" method="get">
+            <button type="submit" class="checkout-button">Thanh Toán</button>
+  </body>
+</html>

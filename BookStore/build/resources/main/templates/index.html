@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"> xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cửa Hàng Sách</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+        .container { width: 80%; margin: auto; overflow: hidden; padding: 20px; }
+        header { background: #333; color: #fff; padding-top: 30px; min-height: 70px; border-bottom: #77aaff 3px solid; }
+        header a { color: #fff; text-decoration: none; text-transform: uppercase; font-size: 16px; }
+        header ul { padding: 0; margin: 0; list-style: none; }
+        header li { float: left; display: inline; padding: 0 20px 0 20px; }
+        .book-list { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .book-item { background: #fff; padding: 20px; border: 1px solid #ddd; text-align: center; width: 250px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .book-item img { max-width: 100%; height: auto; }
+        .book-item h3 { margin-top: 10px; }
+        .book-item p { color: #555; }
+        .book-item .price { font-weight: bold; color: #e8491d; font-size: 1.2em; }
+        .buy-button { background: #e8491d; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; text-decoration: none; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Cửa hàng Sách</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/gio-hang">Giỏ hàng</a></li>
+                <li><a href="/admin">Quản lý</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <h2>Sách Mới Nhất</h2>
+    <div class="book-list">
+        <div th:each="sach : ${danhSachSach}" class="book-item">
+            <img th:src="${sach.hinhAnh}" alt="Ảnh sách">
+            <h3 th:text="${sach.tenSach}">Tên Sách</h3>
+            <p th:text="${sach.tacGia}">Tác Giả</p>
+            <p class="price" th:text="${#numbers.formatDecimal(sach.gia, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}">Giá</p>
+            <form th:action="@{/them-vao-gio/{id}(id=${sach.id})}" method="post">
+                <button type="submit" class="buy-button">Mua ngay</button>
+            </form>
+  </body>
+</html>
