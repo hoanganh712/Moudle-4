@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách Giao dịch</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Danh sách Giao dịch</h2>
+    <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}"></div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Tìm kiếm Giao dịch</h5>
+            <form th:action="@{/giao-dich/tim-kiem}" method="get" class="form-inline">
+                <input type="text" name="tenKhachHang" placeholder="Tìm theo Tên KH" class="form-control mr-2">
+                <select name="loaiDichVu" class="form-control mr-2">
+                    <option value="">Chọn loại dịch vụ</option>
+                    <option value="Nhà">Nhà</option>
+                    <option value="Đất">Đất</option>
+                    <option value="Nhà và đất">Nhà và đất</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </form>
+        </div>
+    </div>
+
+    <a th:href="@{/giao-dich/them-moi}" class="btn btn-success mb-3">Thêm mới</a>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Mã giao dịch</th>
+            <th>Tên khách hàng</th>
+            <th>Loại dịch vụ</th>
+            <th>Ngày giao dịch</th>
+            <th>Đơn giá (VND/m2)</th>
+            <th>Diện tích (m2)</th>
+            <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="gd : ${danhSachGiaoDich}">
+            <td th:text="${gd.maGiaoDich}"></td>
+            <td th:text="${gd.khachHang.tenKhachHang}"></td>
+            <td th:text="${gd.loaiDichVu}"></td>
+            <td th:text="${#dates.format(gd.ngayGiaoDich, 'dd/MM/yyyy')}"></td>
+            <td th:text="${#numbers.formatDecimal(gd.donGia, 0, 'POINT', 0, 'COMMA')}"></td>
+            <td th:text="${gd.dienTich}"></td>
+            <td>
+                <a th:href="@{/giao-dich/chi-tiet/{maGiaoDich}(maGiaoDich=${gd.maGiaoDich})}" class="btn btn-info btn-sm">Chi tiết</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
